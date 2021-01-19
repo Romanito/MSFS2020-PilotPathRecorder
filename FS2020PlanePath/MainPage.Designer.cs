@@ -57,6 +57,9 @@
             this.ErrorTBRO = new System.Windows.Forms.TextBox();
             this.AutomaticLoggingCB = new System.Windows.Forms.CheckBox();
             this.LoggingThresholdGroundVelTB = new System.Windows.Forms.TextBox();
+            this.ExportAsKmzCB = new System.Windows.Forms.CheckBox();
+            this.UploadToFtpCB = new System.Windows.Forms.CheckBox();
+            this.FTPSettingsBtn = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label2
@@ -78,8 +81,9 @@
             // 
             // label3
             // 
+            this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(12, 328);
+            this.label3.Location = new System.Drawing.Point(12, 380);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(76, 13);
             this.label3.TabIndex = 19;
@@ -87,7 +91,8 @@
             // 
             // KMLFolderBrowser
             // 
-            this.KMLFolderBrowser.Location = new System.Drawing.Point(422, 323);
+            this.KMLFolderBrowser.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.KMLFolderBrowser.Location = new System.Drawing.Point(422, 375);
             this.KMLFolderBrowser.Name = "KMLFolderBrowser";
             this.KMLFolderBrowser.Size = new System.Drawing.Size(117, 23);
             this.KMLFolderBrowser.TabIndex = 21;
@@ -97,7 +102,8 @@
             // 
             // KMLFilePathTBRO
             // 
-            this.KMLFilePathTBRO.Location = new System.Drawing.Point(125, 325);
+            this.KMLFilePathTBRO.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.KMLFilePathTBRO.Location = new System.Drawing.Point(125, 377);
             this.KMLFilePathTBRO.Name = "KMLFilePathTBRO";
             this.KMLFilePathTBRO.ReadOnly = true;
             this.KMLFilePathTBRO.Size = new System.Drawing.Size(272, 20);
@@ -145,10 +151,11 @@
             // 
             // CreateKMLButton
             // 
-            this.CreateKMLButton.Location = new System.Drawing.Point(125, 441);
+            this.CreateKMLButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.CreateKMLButton.Location = new System.Drawing.Point(125, 538);
             this.CreateKMLButton.Name = "CreateKMLButton";
             this.CreateKMLButton.Size = new System.Drawing.Size(97, 23);
-            this.CreateKMLButton.TabIndex = 26;
+            this.CreateKMLButton.TabIndex = 29;
             this.CreateKMLButton.Text = "Create KML File";
             this.CreateKMLButton.UseVisualStyleBackColor = true;
             this.CreateKMLButton.Click += new System.EventHandler(this.CreateKMLButton_Click);
@@ -214,6 +221,8 @@
             // 
             // label5
             // 
+            this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.label5.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.label5.Location = new System.Drawing.Point(12, 196);
             this.label5.Name = "label5";
@@ -241,31 +250,36 @@
             // 
             // FlightPickerLV
             // 
+            this.FlightPickerLV.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.FlightPickerLV.FullRowSelect = true;
             this.FlightPickerLV.GridLines = true;
             this.FlightPickerLV.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
             this.FlightPickerLV.HideSelection = false;
             this.FlightPickerLV.Location = new System.Drawing.Point(125, 211);
             this.FlightPickerLV.Name = "FlightPickerLV";
-            this.FlightPickerLV.Size = new System.Drawing.Size(370, 97);
+            this.FlightPickerLV.Size = new System.Drawing.Size(414, 149);
             this.FlightPickerLV.TabIndex = 18;
             this.FlightPickerLV.UseCompatibleStateImageBehavior = false;
             this.FlightPickerLV.View = System.Windows.Forms.View.Details;
             // 
             // DeleteFlight
             // 
-            this.DeleteFlight.Location = new System.Drawing.Point(284, 441);
+            this.DeleteFlight.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.DeleteFlight.Location = new System.Drawing.Point(284, 538);
             this.DeleteFlight.Name = "DeleteFlight";
             this.DeleteFlight.Size = new System.Drawing.Size(152, 23);
-            this.DeleteFlight.TabIndex = 27;
+            this.DeleteFlight.TabIndex = 30;
             this.DeleteFlight.Text = "Delete Flight from Database";
             this.DeleteFlight.UseVisualStyleBackColor = true;
             this.DeleteFlight.Click += new System.EventHandler(this.DeleteFlight_Click);
             // 
             // GoogleEarthAppRB
             // 
+            this.GoogleEarthAppRB.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.GoogleEarthAppRB.AutoSize = true;
-            this.GoogleEarthAppRB.Location = new System.Drawing.Point(132, 369);
+            this.GoogleEarthAppRB.Location = new System.Drawing.Point(132, 421);
             this.GoogleEarthAppRB.Name = "GoogleEarthAppRB";
             this.GoogleEarthAppRB.Size = new System.Drawing.Size(142, 17);
             this.GoogleEarthAppRB.TabIndex = 23;
@@ -275,8 +289,9 @@
             // 
             // GoogleEarthWebRB
             // 
+            this.GoogleEarthWebRB.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.GoogleEarthWebRB.AutoSize = true;
-            this.GoogleEarthWebRB.Location = new System.Drawing.Point(284, 369);
+            this.GoogleEarthWebRB.Location = new System.Drawing.Point(284, 421);
             this.GoogleEarthWebRB.Name = "GoogleEarthWebRB";
             this.GoogleEarthWebRB.Size = new System.Drawing.Size(113, 17);
             this.GoogleEarthWebRB.TabIndex = 24;
@@ -286,7 +301,8 @@
             // 
             // GoogleEarthGB
             // 
-            this.GoogleEarthGB.Location = new System.Drawing.Point(122, 351);
+            this.GoogleEarthGB.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.GoogleEarthGB.Location = new System.Drawing.Point(122, 403);
             this.GoogleEarthGB.Name = "GoogleEarthGB";
             this.GoogleEarthGB.Size = new System.Drawing.Size(282, 46);
             this.GoogleEarthGB.TabIndex = 22;
@@ -295,8 +311,9 @@
             // 
             // SpeedUpVideoPlaybackCB
             // 
+            this.SpeedUpVideoPlaybackCB.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.SpeedUpVideoPlaybackCB.AutoSize = true;
-            this.SpeedUpVideoPlaybackCB.Location = new System.Drawing.Point(125, 403);
+            this.SpeedUpVideoPlaybackCB.Location = new System.Drawing.Point(125, 455);
             this.SpeedUpVideoPlaybackCB.Name = "SpeedUpVideoPlaybackCB";
             this.SpeedUpVideoPlaybackCB.Size = new System.Drawing.Size(361, 17);
             this.SpeedUpVideoPlaybackCB.TabIndex = 25;
@@ -332,11 +349,47 @@
             this.LoggingThresholdGroundVelTB.Size = new System.Drawing.Size(48, 20);
             this.LoggingThresholdGroundVelTB.TabIndex = 10;
             // 
+            // ExportAsKmzCB
+            // 
+            this.ExportAsKmzCB.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.ExportAsKmzCB.AutoSize = true;
+            this.ExportAsKmzCB.Location = new System.Drawing.Point(125, 478);
+            this.ExportAsKmzCB.Name = "ExportAsKmzCB";
+            this.ExportAsKmzCB.Size = new System.Drawing.Size(121, 17);
+            this.ExportAsKmzCB.TabIndex = 26;
+            this.ExportAsKmzCB.Text = "Export as a KMZ file";
+            this.ExportAsKmzCB.UseVisualStyleBackColor = true;
+            // 
+            // UploadToFtpCB
+            // 
+            this.UploadToFtpCB.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.UploadToFtpCB.AutoSize = true;
+            this.UploadToFtpCB.Location = new System.Drawing.Point(125, 501);
+            this.UploadToFtpCB.Name = "UploadToFtpCB";
+            this.UploadToFtpCB.Size = new System.Drawing.Size(127, 17);
+            this.UploadToFtpCB.TabIndex = 27;
+            this.UploadToFtpCB.Text = "Upload to FTP server";
+            this.UploadToFtpCB.UseVisualStyleBackColor = true;
+            // 
+            // FTPSettingsBtn
+            // 
+            this.FTPSettingsBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.FTPSettingsBtn.Location = new System.Drawing.Point(284, 497);
+            this.FTPSettingsBtn.Name = "FTPSettingsBtn";
+            this.FTPSettingsBtn.Size = new System.Drawing.Size(152, 23);
+            this.FTPSettingsBtn.TabIndex = 28;
+            this.FTPSettingsBtn.Text = "FTP settings";
+            this.FTPSettingsBtn.UseVisualStyleBackColor = true;
+            this.FTPSettingsBtn.Click += new System.EventHandler(this.FTPSettingsBtn_Click);
+            // 
             // MainPage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(557, 476);
+            this.ClientSize = new System.Drawing.Size(557, 573);
+            this.Controls.Add(this.FTPSettingsBtn);
+            this.Controls.Add(this.UploadToFtpCB);
+            this.Controls.Add(this.ExportAsKmzCB);
             this.Controls.Add(this.LoggingThresholdGroundVelTB);
             this.Controls.Add(this.AutomaticLoggingCB);
             this.Controls.Add(this.ErrorTBRO);
@@ -404,6 +457,9 @@
         private System.Windows.Forms.TextBox ErrorTBRO;
         private System.Windows.Forms.CheckBox AutomaticLoggingCB;
         private System.Windows.Forms.TextBox LoggingThresholdGroundVelTB;
+        private System.Windows.Forms.CheckBox ExportAsKmzCB;
+        private System.Windows.Forms.CheckBox UploadToFtpCB;
+        private System.Windows.Forms.Button FTPSettingsBtn;
     }
 }
 

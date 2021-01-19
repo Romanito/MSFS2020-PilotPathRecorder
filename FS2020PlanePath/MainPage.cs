@@ -1,17 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Media;
 using System.Net;
-using System.Security.Policy;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using Microsoft.FlightSimulator.SimConnect;
 using SharpKml.Base;
 using SharpKml.Dom;
 using SharpKml.Engine;
@@ -57,6 +51,9 @@ namespace FS2020PlanePath
             LoggingThresholdGroundVelTB.Text = FlightPathDB.GetTableOption("AutomaticLoggingThreshold");
             LoggingThresholdGroundVelTB.Enabled = AutomaticLoggingCB.Checked;
 
+            ExportAsKmzCB.Checked = string.Equals(FlightPathDB.GetTableOption("ExportAsKMZ"), "true");
+            UploadToFtpCB.Checked = string.Equals(FlightPathDB.GetTableOption("UploadToFTP"), "true");
+
             LoadFlightList();
         }
 
@@ -80,13 +77,15 @@ namespace FS2020PlanePath
 
         private void MainPage_Shown(object sender, EventArgs e)
         {
+            Application.DoEvents(); // Allows the form to fully render before starting blocking operations
+
             string sAppLatestVersion;
 
             simConnectIntegration.FForm = this;
-            sAppLatestVersion = ReadLatestAppVersionFromWeb();
+            /*sAppLatestVersion = ReadLatestAppVersionFromWeb();
             if (sAppLatestVersion.Equals(Program.sAppVersion) == false)
                 if (MessageBox.Show("There is a newer version of the application available. Do you wish to download it now?", "New Version Available", MessageBoxButtons.YesNo) == DialogResult.Yes)
-                    System.Diagnostics.Process.Start("https://github.com/SAHorowitz/MSFS2020-PilotPathRecorder");
+                    System.Diagnostics.Process.Start("https://github.com/SAHorowitz/MSFS2020-PilotPathRecorder");*/
             AttemptSimConnection();
             nCurrentFlightID = 0;
             bStartedLoggingDueToSpeed = false;
@@ -326,6 +325,7 @@ namespace FS2020PlanePath
             placemarkLine.Geometry = linestring;
 
             // start of Flight Plan Waypoints
+            string sFromTo = "";
             List<FlightWaypointData> FlightWaypoints = new List<FlightWaypointData>();
             FlightWaypoints = FlightPathDB.GetFlightWaypoints(nFlightID);
             if (FlightWaypoints.Count > 0)
@@ -355,6 +355,7 @@ namespace FS2020PlanePath
                     };
                     FlightPlanFolder.AddFeature(placemarkPoint);
                 }
+                sFromTo = " " + FlightWaypoints.First().gps_wp_name + "-" + FlightWaypoints.Last().gps_wp_name;
             }
 
             // start of Flight Data Points
@@ -562,20 +563,74 @@ namespace FS2020PlanePath
                 playlist.AddTourPrimitive(animatedUpdate);*/
             }
 
-            // write out KML file
+            // File name
+            string sFileNameFormat = ExportAsKmzCB.Checked ? "kmz" : "kml";
+            FlightListData flightData = FlightPathDB.GetFlight(nFlightID);
+            if (flightData != null)
+            {
+                sfilename = string.Format("{0:yyyy-MM-dd_HHmmss}{1} {2}.{3}", new DateTime(flightData.start_flight_timestamp), sFromTo, flightData.aircraft, sFileNameFormat);
+            }
+            else
+            {
+                sfilename = String.Format("{0}{1} {2}.{3}", FlightPickerLV.SelectedItems[0].SubItems[0].Text, sFromTo, FlightPickerLV.SelectedItems[0].SubItems[1].Text, sFileNameFormat);
+            }
             char[] invalidFileNameChars = Path.GetInvalidFileNameChars();
-            sfilename = String.Format("{0}_{1}.kml", FlightPickerLV.SelectedItems[0].SubItems[1].Text, FlightPickerLV.SelectedItems[0].SubItems[0].Text);
             var validfilename = new string(sfilename.Select(ch => invalidFileNameChars.Contains(ch) ? '_' : ch).ToArray());
             sfilename = string.Concat(KMLFilePathTBRO.Text, "\\");
             sfilename += validfilename;
 
             System.IO.File.Delete(sfilename);
+
+            // write out KML file
             KmlFile kmlfile = KmlFile.Create(kml, true);
-            using (var stream = System.IO.File.OpenWrite(sfilename))
+
+            if (ExportAsKmzCB.Checked)
             {
-                kmlfile.Save(stream);
+                // Export as KMZ
+                using (KmzFile kmzFile = KmzFile.Create(kmlfile))
+                using (var stream = System.IO.File.OpenWrite(sfilename))
+                {
+                    kmzFile.Save(stream);
+                }
             }
-            MessageBox.Show(String.Format("Flight successfully exported to {0}", sfilename), "Export KML File");
+            else
+            {
+                // Export as KML
+                using (var stream = System.IO.File.OpenWrite(sfilename))
+                {
+                    kmlfile.Save(stream);
+                }
+            }
+
+            string exportMessageText = String.Format("Flight successfully exported to {0}", sfilename);
+            MessageBoxIcon exportMessageIcon = MessageBoxIcon.Information;
+
+            // Upload to FTP server
+            if (UploadToFtpCB.Checked)
+            {
+                try
+                {
+                    Cursor = Cursors.WaitCursor;
+                    FTPSettings ftpSettings = new FTPSettings();
+                    if (ftpSettings.UseSFTP)
+                        SFTPClient.UploadFile(sfilename);
+                    else
+                        FTPClient.UploadFile(sfilename);
+                    exportMessageText += "\nand uploaded to FTP server.";
+                }
+                catch (Exception ex)
+                {
+                    exportMessageText += "\n\nAn error occured while uploading the file: " + ex.Message;
+                    exportMessageIcon = MessageBoxIcon.Warning;
+                }
+                finally
+                {
+                    Cursor = Cursors.Default;
+                }
+
+            }
+
+            MessageBox.Show(exportMessageText, "Export KML File", MessageBoxButtons.OK, exportMessageIcon);
         }
 
         // stop logging disconnects simconnect, sets buttons correctly and reloads flight list 
@@ -691,6 +746,8 @@ namespace FS2020PlanePath
             else
                 FlightPathDB.WriteTableOption("AutomaticLogging", "false");
             FlightPathDB.WriteTableOption("AutomaticLoggingThreshold", LoggingThresholdGroundVelTB.Text);
+            FlightPathDB.WriteTableOption("ExportAsKMZ", ExportAsKmzCB.Checked ? "true" : "false");
+            FlightPathDB.WriteTableOption("UploadToFTP", UploadToFtpCB.Checked ? "true" : "false");
             simConnectIntegration.CloseConnection();
         }
 
@@ -744,6 +801,11 @@ namespace FS2020PlanePath
         private void AutomaticLoggingCB_Click(object sender, EventArgs e)
         {
             LoggingThresholdGroundVelTB.Enabled = AutomaticLoggingCB.Checked;
+        }
+
+        private void FTPSettingsBtn_Click(object sender, EventArgs e)
+        {
+            new FTPSettingsPage().ShowDialog();
         }
     }
 }

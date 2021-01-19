@@ -1,6 +1,12 @@
-See farther down in this document for instructions on how to install and use the program.
+This is a fork of [SAHorowitz](https://github.com/SAHorowitz)'s [MSFS2020-PilotPathRecorder](https://github.com/SAHorowitz/MSFS2020-PilotPathRecorder).
 
-Discussions Tab is turned on above, please use it to post questions, bugs, or enhancement ideas.
+This fork brings several features (see v1.3.0rom1 in [Version history](#-version-history))
+
+Original readme follows.
+
+---
+
+See farther down in this document for instructions on how to install and use the program.
 
 # MSFS2020-PilotPathRecorder
 PilotPathRecorder is a replay and flight data capture tool that allows you to see your flight information visually using Google Earth. Record your flight path with key flight information archived during the trip.  Then the application will export that data to a KML file to use with Google Earth for 3 dimensional flight analysis, flight plan information and a chance to review your flight from the first person perspective.
@@ -11,6 +17,15 @@ This is a stand-alone application that is run outside of Microsft Flight Simulat
 
 
 # Version History
+v1.3.0rom1 - Added several features:
+- Export flights to KMZ files (smaller than KML)
+- Upload files to a server via FTP or SFTP
+- Made the main window more responsive to resizing and to initial SimConnect connection attempt
+- Changed the exported file name pattern:
+    - Sortable date first
+    - Flight route (first and last waypoints)
+    - Aircraft name
+
 v1.3.0
 - Added ability to automatically start and stop the recorder based on flight ground speed. This way you will never forget to log your flight.
 

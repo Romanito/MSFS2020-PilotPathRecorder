@@ -1,14 +1,6 @@
-﻿using Microsoft.SqlServer.Server;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
 using System.Data.SQLite;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace FS2020PlanePath
 {
@@ -188,7 +180,7 @@ namespace FS2020PlanePath
         void CreateConnection()
         {
             sqlite_conn = new SQLiteConnection("Data Source=FlightSimFlightsDB.db; Version = 3; New = True; Compress = True; ");
-         // Open the connection:
+            // Open the connection:
             try
             {
                 sqlite_conn.Open();
@@ -205,7 +197,7 @@ namespace FS2020PlanePath
             string sAdtlInfo = strCallerName + " " + strQueryType;
             if (sqlite_cmd != null)
             {
-                sAdtlInfo  += ": " + sqlite_cmd.CommandText.ToString();
+                sAdtlInfo += ": " + sqlite_cmd.CommandText.ToString();
                 foreach (SQLiteParameter p in sqlite_cmd.Parameters)
                 {
                     string isQuted = (p.Value is string) ? "'" : "";
@@ -386,7 +378,7 @@ namespace FS2020PlanePath
                 nNumVersionRows++;
             }
             if (nNumVersionRows == 2)
-            { 
+            {
                 sqlite_cmd.Parameters.Clear();
                 sqlite_cmd.Parameters.AddWithValue("@tblname", "FlightSampleDetails");
                 sqlite_cmd.Parameters.AddWithValue("@tblversion", TblVersion_FlightSampleDetails);
@@ -717,6 +709,134 @@ namespace FS2020PlanePath
                 sqlite_cmd.Parameters.Clear();
                 sqlite_cmd.Parameters.AddWithValue("@optionname", "AutomaticLoggingThreshold");
                 sqlite_cmd.Parameters.AddWithValue("@optionvalue", "30");
+                try
+                {
+                    sqlite_cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    Program.ErrorLogging(GetDBQueryExtraInfo(System.Reflection.MethodBase.GetCurrentMethod().Name, "ExecuteNonQuery", sqlite_cmd), ex);
+                    throw ex;
+                }
+                nNumOptionRows++;
+            }
+            if (nNumOptionRows == 7)
+            {
+                sqlite_cmd.Parameters.Clear();
+                sqlite_cmd.Parameters.AddWithValue("@optionname", "ExportAsKMZ");
+                sqlite_cmd.Parameters.AddWithValue("@optionvalue", "false");
+                try
+                {
+                    sqlite_cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    Program.ErrorLogging(GetDBQueryExtraInfo(System.Reflection.MethodBase.GetCurrentMethod().Name, "ExecuteNonQuery", sqlite_cmd), ex);
+                    throw ex;
+                }
+                nNumOptionRows++;
+            }
+            if (nNumOptionRows == 8)
+            {
+                sqlite_cmd.Parameters.Clear();
+                sqlite_cmd.Parameters.AddWithValue("@optionname", "UploadToFTP");
+                sqlite_cmd.Parameters.AddWithValue("@optionvalue", "false");
+                try
+                {
+                    sqlite_cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    Program.ErrorLogging(GetDBQueryExtraInfo(System.Reflection.MethodBase.GetCurrentMethod().Name, "ExecuteNonQuery", sqlite_cmd), ex);
+                    throw ex;
+                }
+                nNumOptionRows++;
+            }
+            if (nNumOptionRows == 9)
+            {
+                sqlite_cmd.Parameters.Clear();
+                sqlite_cmd.Parameters.AddWithValue("@optionname", "FTPHost");
+                sqlite_cmd.Parameters.AddWithValue("@optionvalue", "");
+                try
+                {
+                    sqlite_cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    Program.ErrorLogging(GetDBQueryExtraInfo(System.Reflection.MethodBase.GetCurrentMethod().Name, "ExecuteNonQuery", sqlite_cmd), ex);
+                    throw ex;
+                }
+                nNumOptionRows++;
+            }
+            if (nNumOptionRows == 10)
+            {
+                sqlite_cmd.Parameters.Clear();
+                sqlite_cmd.Parameters.AddWithValue("@optionname", "FTPPort");
+                sqlite_cmd.Parameters.AddWithValue("@optionvalue", "21");
+                try
+                {
+                    sqlite_cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    Program.ErrorLogging(GetDBQueryExtraInfo(System.Reflection.MethodBase.GetCurrentMethod().Name, "ExecuteNonQuery", sqlite_cmd), ex);
+                    throw ex;
+                }
+                nNumOptionRows++;
+            }
+            if (nNumOptionRows == 11)
+            {
+                sqlite_cmd.Parameters.Clear();
+                sqlite_cmd.Parameters.AddWithValue("@optionname", "FTPPath");
+                sqlite_cmd.Parameters.AddWithValue("@optionvalue", "");
+                try
+                {
+                    sqlite_cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    Program.ErrorLogging(GetDBQueryExtraInfo(System.Reflection.MethodBase.GetCurrentMethod().Name, "ExecuteNonQuery", sqlite_cmd), ex);
+                    throw ex;
+                }
+                nNumOptionRows++;
+            }
+            if (nNumOptionRows == 12)
+            {
+                sqlite_cmd.Parameters.Clear();
+                sqlite_cmd.Parameters.AddWithValue("@optionname", "FTPUserName");
+                sqlite_cmd.Parameters.AddWithValue("@optionvalue", "");
+                try
+                {
+                    sqlite_cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    Program.ErrorLogging(GetDBQueryExtraInfo(System.Reflection.MethodBase.GetCurrentMethod().Name, "ExecuteNonQuery", sqlite_cmd), ex);
+                    throw ex;
+                }
+                nNumOptionRows++;
+            }
+            if (nNumOptionRows == 13)
+            {
+                sqlite_cmd.Parameters.Clear();
+                sqlite_cmd.Parameters.AddWithValue("@optionname", "FTPPassword");
+                sqlite_cmd.Parameters.AddWithValue("@optionvalue", "");
+                try
+                {
+                    sqlite_cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    Program.ErrorLogging(GetDBQueryExtraInfo(System.Reflection.MethodBase.GetCurrentMethod().Name, "ExecuteNonQuery", sqlite_cmd), ex);
+                    throw ex;
+                }
+                nNumOptionRows++;
+            }
+            if (nNumOptionRows == 14)
+            {
+                sqlite_cmd.Parameters.Clear();
+                sqlite_cmd.Parameters.AddWithValue("@optionname", "FTPUseSFTP");
+                sqlite_cmd.Parameters.AddWithValue("@optionvalue", "false");
                 try
                 {
                     sqlite_cmd.ExecuteNonQuery();
@@ -1078,6 +1198,35 @@ namespace FS2020PlanePath
             return FlightList;
         }
 
+        public FlightListData GetFlight(int nFlightID)
+        {
+            FlightListData flightData = null;
+            SQLiteCommand sqlite_cmd = sqlite_conn.CreateCommand();
+            sqlite_cmd.CommandText = "SELECT aircraft, start_datetimestamp FROM Flights WHERE FlightID = @FlightID"; ;
+            sqlite_cmd.Parameters.AddWithValue("@FlightID", nFlightID);
+            try
+            {
+                SQLiteDataReader r = sqlite_cmd.ExecuteReader();
+
+                if (r.Read())
+                {
+                    flightData = new FlightListData()
+                    {
+                        FlightID = nFlightID,
+                        aircraft = r.GetString(0),
+                        start_flight_timestamp = r.GetInt64(1)
+                    };
+                }
+            }
+            catch (Exception ex)
+            {
+                Program.ErrorLogging(GetDBQueryExtraInfo(System.Reflection.MethodBase.GetCurrentMethod().Name, "ExecuteReader", sqlite_cmd), ex);
+                throw ex;
+            }
+
+            return flightData;
+        }
+
         public void DeleteFlight(int nFlightID)
         {
             SQLiteCommand sqlite_cmd;
@@ -1086,7 +1235,7 @@ namespace FS2020PlanePath
 
             sqlite_cmd = sqlite_conn.CreateCommand();
             transaction = sqlite_conn.BeginTransaction();
-            
+
             Deletesql = "Delete from FlightWaypoints WHERE FlightID = @FlightID";
             sqlite_cmd.CommandText = Deletesql;
             sqlite_cmd.Parameters.Clear();

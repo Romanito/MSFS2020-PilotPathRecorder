@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Reflection;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace FS2020PlanePath
@@ -13,7 +10,7 @@ namespace FS2020PlanePath
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
-        static public string sAppVersion = "1.3.0";
+        static public string sAppVersion = "1.3.0rom1";
         static public bool bLogErrorsWritten = false;
 
         [STAThread]
@@ -32,7 +29,7 @@ namespace FS2020PlanePath
 
         public static void ErrorLogging(string sAdtlMsg, Exception ex)
         {
-            string strPath = ErrorLogFile(); 
+            string strPath = ErrorLogFile();
             if (!File.Exists(strPath))
             {
                 File.Create(strPath).Dispose();
